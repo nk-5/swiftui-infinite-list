@@ -9,7 +9,17 @@ where Data: RandomAccessCollection, Data.Element: Hashable, Content: View, Loadi
     let loadMore: () -> Void
     let onRefresh: OnRefresh?
     let content: (Data.Element) -> Content
-        
+    
+    //private let columns: [GridItem] = {
+    //    let fixedSize = UIScreen.main.bounds.width / 3
+    //    return [
+    //        GridItem(.fixed(fixedSize), spacing: 2),
+    //        GridItem(.fixed(fixedSize), spacing: 2),
+    //        GridItem(.fixed(fixedSize), spacing: 2)
+    //    ]
+    //}()
+
+
     public init(data: Binding<Data>,
          isLoading: Binding<Bool>,
          loadingView: LoadingView,
@@ -38,9 +48,18 @@ where Data: RandomAccessCollection, Data.Element: Hashable, Content: View, Loadi
     }
     
     private var scrollableContent: some View {
-        Group {
+        return Group {
             if #available(iOS 14.0, *) {
-                LazyVStack(spacing: 10) {
+                //LazyVStack(spacing: 10) {
+                //    listItems
+                //}
+                let fixedSize = UIScreen.main.bounds.width / 3
+                let columns = [
+                    GridItem(.fixed(fixedSize), spacing: 2),
+                    GridItem(.fixed(fixedSize), spacing: 2),
+                    GridItem(.fixed(fixedSize), spacing: 2)
+                ]
+                LazyVGrid(columns: columns, spacing: 2.0) {
                     listItems
                 }
             } else {
